@@ -1,12 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Car Rentals</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .hero {
+            background: url("{% static 'images/kia_carnival1.jpeg' %}") center/cover no-repeat;
+            height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            top: 20%;
+        }
+    </style>
 </head>
 <body>
-    <h2>user home</h2>
-    <a href="logout" class="btn btn-primary">logout</a>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Car Rentals</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <!-- <img src="{% static 'images/peakpx.jpg' %}" alt=""> -->
+        <h1>Find Your Perfect Ride</h1>
+    </div>
+
+    <!-- Services Section -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <img src="https://source.unsplash.com/400x300/?luxury,car" class="card-img-top" alt="Luxury Cars">
+                    <div class="card-body">
+                        <h5 class="card-title">Luxury Cars</h5>
+                        <p class="card-text">Experience premium rides with our luxury fleet.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <img src="https://source.unsplash.com/400x300/?suv,car" class="card-img-top" alt="SUVs">
+                    <div class="card-body">
+                        <h5 class="card-title">SUVs</h5>
+                        <p class="card-text">Spacious and comfortable SUVs for your adventures.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <img src="https://source.unsplash.com/400x300/?car,rental" class="card-img-top" alt="Economy Cars">
+                    <div class="card-body">
+                        <h5 class="card-title">Economy Cars</h5>
+                        <p class="card-text">Affordable and efficient cars for daily use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        &copy; 2025 Car Rentals. All Rights Reserved.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

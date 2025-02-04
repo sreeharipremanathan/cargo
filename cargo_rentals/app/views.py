@@ -67,7 +67,8 @@ def admin_home(req):
 
 # ---------user-----------------------
 def cargo_home(req):
-    if 'user' in req.session:
-        return render(req,'user/user_home.html')
-    else:
-        return render(cargo_login)
+    # if 'user' in req.session:
+    #     return render(req,'user/user_home.html')
+    # else:
+    #     return render(cargo_login)
+    return render(req,'user/user_home.html')
