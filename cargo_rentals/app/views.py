@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
+from .models import *
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -58,15 +59,38 @@ def register(req):
 # --------admin-----------------------
 def admin_home(req):
     if 'admin' in req.session:
-        return render(req,'admin/admin_home.html')
+        car=Car.objects.all()
+        return render(req,'admin/admin_home.html',{'cars':car})
     else:
         return render(cargo_login)
 
+def add_product(req):
+    name=req.POST['car_name']
+    brand=req.POST['brand']
+    fuel=req.POST['Fuel']
+    category=req.POST['category']
+    seats=req.POST['num_of_seats']
+    file=req.FILES['image']
+    data=Car.objects.create(name=name,brand=brand,fuel=fuel,category=category,num_of_seats=seats,image=file)
+    return render(req,'admin/add_car.html')
 
+def add_category(req):
+    if 'admin' in req.session:
+        if req.method == 'POST':
+            category=req.POST['category']
+            data=Category.objects.create(category=category)
+            data.save()
+            return redirect(add_category)
+        else:
+            data=Category.objects.all()
+            return render(req,'admin/add_category.html',{'data':data})
+    else:
+         return redirect(cargo_home)
 
 
 # ---------user-----------------------
 def cargo_home(req):
+    print()
     # if 'user' in req.session:
     #     return render(req,'user/user_home.html')
     # else:

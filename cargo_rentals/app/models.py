@@ -9,11 +9,13 @@ class Car(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=50)
     image = models.FileField()
+    fuel = models.TextField()
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     num_of_seats = models.IntegerField()
-    price_per_day = models.DecimalField(max_digits=10, decimal_places=2)
-    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
 
+class Details(models.Model):
+    price_per_day = models.IntegerField()
+    is_available = models.BooleanField(default=True)
