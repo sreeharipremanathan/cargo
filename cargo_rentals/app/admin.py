@@ -3,5 +3,3 @@ from .models import *
 
 admin.site.register(Car)
 admin.site.register(Category)
-admin.site.register(Details)
-

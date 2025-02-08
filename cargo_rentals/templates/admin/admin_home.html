@@ -89,13 +89,31 @@
                     <tr>
                         <th>ID</th>
                         <th>Car Name</th>
-                        <th>Model</th>
+                        <th>Brand</th>
                         <th>Price/Day</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in cars %}
+                    <tr>
+                        <td>{{i.id}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.brand}}</td>
+                        <td>{{i.price_per_day}}</td>
+                        <td>{{i.is_available}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary">Edit</button>
+                            <button class="btn btn-sm btn-danger">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+
+
+
                     <!-- <tr>
                         <td>1</td>
                         <td>Toyota Corolla</td>

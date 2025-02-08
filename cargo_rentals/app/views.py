@@ -64,14 +64,18 @@ def admin_home(req):
     else:
         return render(cargo_login)
 
-def add_product(req):
-    name=req.POST['car_name']
-    brand=req.POST['brand']
-    fuel=req.POST['Fuel']
-    category=req.POST['category']
-    seats=req.POST['num_of_seats']
-    file=req.FILES['image']
-    data=Car.objects.create(name=name,brand=brand,fuel=fuel,category=category,num_of_seats=seats,image=file)
+def add_car(req):
+    if req.method=='POST':
+        name=req.POST['name']
+        brand=req.POST['brand']
+        fuel=req.POST['fuel']
+        category=req.POST['category']
+        seats=req.POST['num_of_seats']
+        price=req.POST['price_per_day']
+        status=req.POST['is_available']
+        file=req.FILES['image']
+        data=Car.objects.create(name=name,brand=brand,fuel=fuel,num_of_seats=seats,image=file,price_per_day=price,is_available=status,category=Category.objects.get(category=category))
+        data.save()
     return render(req,'admin/add_car.html')
 
 def add_category(req):
@@ -90,7 +94,6 @@ def add_category(req):
 
 # ---------user-----------------------
 def cargo_home(req):
-    print()
     # if 'user' in req.session:
     #     return render(req,'user/user_home.html')
     # else:
