@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate,login,logout
 from .models import *
+import os
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -65,18 +66,54 @@ def admin_home(req):
         return render(cargo_login)
 
 def add_car(req):
-    if req.method=='POST':
-        name=req.POST['name']
-        brand=req.POST['brand']
-        fuel=req.POST['fuel']
-        category=req.POST['category']
-        seats=req.POST['num_of_seats']
-        price=req.POST['price_per_day']
-        status=req.POST['is_available']
-        file=req.FILES['image']
-        data=Car.objects.create(name=name,brand=brand,fuel=fuel,num_of_seats=seats,image=file,price_per_day=price,is_available=status,category=Category.objects.get(category=category))
-        data.save()
+    if 'admin' in req.session:
+        if req.method=='POST':
+            name=req.POST['name']
+            brand=req.POST['brand']
+            fuel=req.POST['fuel']
+            categoryy=req.POST['category']
+            seats=req.POST['num_of_seats']
+            price=req.POST['price_per_day']
+            status = req.POST.get('is_available') == 'on'
+            file=req.FILES['image']
+            data=Car.objects.create(name=name,brand=brand,image=file,fuel=fuel,category=Category.objects.get(category=categoryy),
+                                    num_of_seats=seats,price_per_day=price,
+                                    is_available=status
+                                    )
+            data.save()
+        else:
+            data=Category.objects.all()
+            return render(req,'admin/add_car.html',{'data':data})
     return render(req,'admin/add_car.html')
+
+def edit_car(req,id):
+    car=Car.objects.get(pk=id)
+    if req.method=='POST':
+            name=req.POST['name']
+            brand=req.POST['brand']
+            fuel=req.POST['fuel']
+            seats=req.POST['num_of_seats']
+            price=req.POST['price_per_day']
+            status = req.POST.get('is_available') == 'on'
+            file=req.FILES['image']
+            if file:
+                Car.objects.filter(pk=id).update(name=name,brand=brand,image=file,fuel=fuel,
+                                    num_of_seats=seats,price_per_day=price,
+                                    is_available=status)
+            else:
+                Car.objects.filter(pk=id).update(name=name,brand=brand,fuel=fuel,
+                                    num_of_seats=seats,price_per_day=price,
+                                    is_available=status)
+            return redirect(admin_home)
+    return render(req,'admin/edit_car.html',{'data':car})
+
+def delete_car(req,id):
+    data=Car.objects.get(pk=id)
+    url=data.image.url
+    url=url.split('/')[-1]
+    os.remove('media/'+url)
+    data.delete()
+    return redirect(admin_home)
 
 def add_category(req):
     if 'admin' in req.session:

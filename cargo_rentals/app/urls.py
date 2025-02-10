@@ -8,6 +8,8 @@ urlpatterns=[
     path('logout',views.cargo_logout),
     # -------admin----------
     path('admin_home',views.admin_home),
-    path('add_product',views.add_car),
+    path('add_car',views.add_car),
+    path('edit_car/<id>',views.edit_car),
     path('add_category',views.add_category),
+    path('delete_car/<id>',views.delete_car),
 ]

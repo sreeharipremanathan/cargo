@@ -48,7 +48,7 @@
         <h4 class="text-center">Admin Panel</h4>
         <hr>
         <a href="#">Dashboard</a>
-        <a href="add_product">Add Cars</a>
+        <a href="add_car">Add Cars</a>
         <!-- <a href="#">Rentals</a> -->
         <a href="add_category">Add Category</a>
         <a href="#">Settings</a>
@@ -100,42 +100,15 @@
                     <tr>
                         <td>{{i.id}}</td>
                         <td>{{i.name}}</td>
-                        <td>{{i.name}}</td>
                         <td>{{i.brand}}</td>
                         <td>{{i.price_per_day}}</td>
                         <td>{{i.is_available}}</td>
                         <td>
-                            <button class="btn btn-sm btn-primary">Edit</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
+                            <a href="edit_car/{{ i.pk }}" class="btn btn-primary">Edit</a>
+                            <a href="delete_car/{{ i.pk }}" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}
-
-
-
-
-                    <!-- <tr>
-                        <td>1</td>
-                        <td>Toyota Corolla</td>
-                        <td>2022</td>
-                        <td>$50</td>
-                        <td><span class="badge bg-success">Available</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Edit</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Honda Civic</td>
-                        <td>2021</td>
-                        <td>$45</td>
-                        <td><span class="badge bg-warning">Rented</span></td>
-                        <td>
-                            <button class="btn btn-sm btn-primary">Edit</button>
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </td>
-                    </tr> -->
                 </tbody>
             </table>
         </div>
