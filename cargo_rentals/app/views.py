@@ -87,25 +87,31 @@ def add_car(req):
     return render(req,'admin/add_car.html')
 
 def edit_car(req,id):
-    car=Car.objects.get(pk=id)
+    # car=Car.objects.get(pk=id)
     if req.method=='POST':
             name=req.POST['name']
             brand=req.POST['brand']
+            files=req.FILES['image']
             fuel=req.POST['fuel']
             seats=req.POST['num_of_seats']
             price=req.POST['price_per_day']
             status = req.POST.get('is_available') == 'on'
-            file=req.FILES['image']
-            if file:
-                Car.objects.filter(pk=id).update(name=name,brand=brand,image=file,fuel=fuel,
+            
+            if files:
+                Car.objects.filter(pk=id).update(name=name,brand=brand,image=files,fuel=fuel,
                                     num_of_seats=seats,price_per_day=price,
                                     is_available=status)
+                data=Car.objects.get(pk=id)
+                data.image=files
+                data.save()
             else:
                 Car.objects.filter(pk=id).update(name=name,brand=brand,fuel=fuel,
                                     num_of_seats=seats,price_per_day=price,
                                     is_available=status)
             return redirect(admin_home)
-    return render(req,'admin/edit_car.html',{'data':car})
+    else:
+        data=Car.objects.get(pk=id)
+        return render(req,'admin/edit_car.html',{'data':data})
 
 def delete_car(req,id):
     data=Car.objects.get(pk=id)
@@ -114,6 +120,11 @@ def delete_car(req,id):
     os.remove('media/'+url)
     data.delete()
     return redirect(admin_home)
+
+def delete_category(req,id):
+    data=Category.objects.get(pk=id)
+    data.delete()
+    return redirect(add_category)
 
 def add_category(req):
     if 'admin' in req.session:
@@ -131,8 +142,9 @@ def add_category(req):
 
 # ---------user-----------------------
 def cargo_home(req):
-    # if 'user' in req.session:
-    #     return render(req,'user/user_home.html')
-    # else:
-    #     return render(cargo_login)
-    return render(req,'user/user_home.html')
+    data=Car.objects.all()
+    return render(req,'user/user_home.html',{'data':data})
+
+def view_car(req,id):
+    data=Car.objects.get(pk=id)
+    return render(req,'user/view_car.html',{'data':data})

@@ -12,4 +12,7 @@ urlpatterns=[
     path('edit_car/<id>',views.edit_car),
     path('add_category',views.add_category),
     path('delete_car/<id>',views.delete_car),
+    path('delete_category/<id>',views.delete_category),
+    # ------user------------
+    path('view_car/<id>',views.view_car),
 ]

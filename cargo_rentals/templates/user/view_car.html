@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">CarGo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login">login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="car-container">
+            <h2 class="text-center">{{ data.name }}</h2>
+            <img src="{{ data.image.url }}" alt="{{ data.name }}" class="car-img" style="max-height: 350px; max-width: 100%;">
+            
+            <div class="mt-3">
+                <p><strong>Brand:</strong> {{ data.brand }}</p>
+                <p><strong>Fuel Type:</strong> {{ data.fuel }}</p>
+                <p><strong>Category:</strong> {{ data.category.category }}</p>
+                <p><strong>Seats:</strong> {{ data.num_of_seats }}</p>
+                <p><strong>Price Per Day:</strong> ₹{{ data.price_per_day }}</p>
+                <p>
+                    <strong>Availability:</strong> 
+                    <span class="availability {% if data.is_available %}available{% else %}not-available{% endif %} text-success">
+                        {% if data.is_available %}Available{% else %}Not Available{% endif %}
+                    </span>
+                </p>
+            </div>
+    
+            <div class="text-center mt-4">
+                <a href="" class="btn btn-primary {% if not car.is_available %}disabled{% endif %}">
+                    Rent Now
+                </a>
+                <a href="home" class="btn btn-secondary">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-5">
+        &copy; 2025 Car Rentals. All Rights Reserved.
+    </footer>
+</body>
+</html>

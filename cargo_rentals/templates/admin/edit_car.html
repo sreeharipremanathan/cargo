@@ -84,16 +84,12 @@
                     <input type="text" class="form-control" name="fuel" id="fuel" value="{{ data.fuel }}" required>
                 </div>
     
-                <!-- <div class="mb-3">
+                <div class="mb-3">
                     <label for="category" class="form-label">Category:</label>
                     <select class="form-select" name="category" id="category">
-                        {% for category in categories %}
-                            <option value="{{ category.id }}" {% if category == data.category %}selected{% endif %}>
-                                {{ category.category }}
-                            </option>
-                        {% endfor %}
+                            <option value="{{data.category.category}}">{{data.category.category}}</option>
                     </select>
-                </div> -->
+                </div>
     
                 <div class="mb-3">
                     <label for="num_of_seats" class="form-label">Number of Seats:</label>
