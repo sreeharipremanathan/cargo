@@ -148,3 +148,22 @@ def cargo_home(req):
 def view_car(req,id):
     data=Car.objects.get(pk=id)
     return render(req,'user/view_car.html',{'data':data})
+
+def contact(req):
+    if req.method == "POST":
+        name = req.POST["name"]
+        email = req.POST["email"]
+        message = req.POST["message"]
+
+        # Send email (Optional: Set up Django email settings)
+        send_mail(
+            subject=f"New Contact Form Submission from {name}",
+            message=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
+            from_email=email,
+            recipient_list=["yourbusiness@email.com"],  # Replace with your email
+            fail_silently=True,
+        )
+
+        messages.success(req, "Your message has been sent successfully!")
+        return redirect("contact_us")  # Redirect to avoid form resubmission
+    return render(req,'user/contact.html')

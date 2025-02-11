@@ -12,6 +12,24 @@
         nav{
             background-color: black;
         }
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-submit {
+            width: 100%;
+            font-size: 18px;
+        }
         h2{
             color: rgb(0, 0, 0);
         }
@@ -26,9 +44,7 @@
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
-        form{
-            width: 700px;
-        }
+        
         .btn-primary {
             /* background-color: #000000; */
             border-color: #007bff;
@@ -58,7 +74,62 @@
         </div>
       </nav>
 
-    <div class="container mt-4">
+        <div class="form-container">
+            <h2 class="text-center">Add a Car</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="name" class="form-label">Car Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="brand" class="form-label">Brand:</label>
+                    <input type="text" name="brand" id="brand" class="form-control" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="image" class="form-label">Car Image:</label>
+                    <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="fuel" class="form-label">Fuel Type:</label>
+                    <input type="text" name="fuel" id="fuel" class="form-control" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category:</label>
+                    <select name="category" id="category" class="form-select">
+                        <option value="" disabled selected>Select Category</option>
+                        {% for i in data %}
+                            <option value="{{ i.category }}">{{ i.category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="num_of_seats" class="form-label">Number of Seats:</label>
+                    <input type="number" name="num_of_seats" id="num_of_seats" class="form-control" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="price_per_day" class="form-label">Price per Day (₹):</label>
+                    <input type="number" name="price_per_day" id="price_per_day" class="form-control" required>
+                </div>
+    
+                <div class="form-check mb-3">
+                    <input type="checkbox" name="is_available" id="is_available" class="form-check-input">
+                    <label for="is_available" class="form-check-label">Available</label>
+                </div>
+    
+                <button type="submit" class="btn btn-primary btn-submit">Add Car</button>
+            </form>
+        </div>
+
+
+
+    <!-- <div class="container mt-4">
         <h2>Add Car</h2>
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
@@ -93,7 +164,7 @@
           <button type="submit">Add Car</button>
       </form>
       
-    </div>
+    </div> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

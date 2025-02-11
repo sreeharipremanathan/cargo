@@ -19,7 +19,7 @@
                     <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../contact">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
                     <li class="nav-item"><a class="nav-link" href="login">login</a></li>
                 </ul>
@@ -27,7 +27,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="car-container">
             <h2 class="text-center">{{ data.name }}</h2>
             <img src="{{ data.image.url }}" alt="{{ data.name }}" class="car-img" style="max-height: 350px; max-width: 100%;">
@@ -40,7 +40,7 @@
                 <p><strong>Price Per Day:</strong> ₹{{ data.price_per_day }}</p>
                 <p>
                     <strong>Availability:</strong> 
-                    <span class="availability {% if data.is_available %}available{% else %}not-available{% endif %} text-success">
+                    <span class="{% if data.is_available %}text-success fw-bold{% else %}text-danger fw-bold{% endif %}">
                         {% if data.is_available %}Available{% else %}Not Available{% endif %}
                     </span>
                 </p>

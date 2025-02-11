@@ -40,7 +40,7 @@
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Cars</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
                     <li class="nav-item"><a class="nav-link" href="login">login</a></li>
                 </ul>
@@ -59,7 +59,7 @@
             {% for i in data %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4" >
                 <a href="view_car/{{i.pk}}" class="text-decoration-none">
-                    <div class="card shadow-sm border-0 product-card" style="height: 400px;">
+                    <div class="card shadow-sm border-0 product-card" style="height: 370px;">
                         <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}" style="max-height: 250px; max-width: 100%;">
                         <div class="card-body text-center">
                             <h5 class="card-title text-dark fw-bold">{{ i.name }}</h5>

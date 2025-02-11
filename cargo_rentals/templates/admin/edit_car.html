@@ -20,10 +20,24 @@
           border-radius: 10px;
           box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
       }
-      .form-container h2 {
+      .form-label {
+            font-weight: bold;
+        }
+        .btn-submit {
+            width: 100%;
+            font-size: 18px;
+        }
+        h2{
+            color: rgb(0, 0, 0);
+        }
+        label{
+            color: rgb(2, 2, 2);
+            font-size: 20px;
+        }
+      /* .form-container h2 {
           text-align: center;
           margin-bottom: 20px;
-      }
+      } */
       .form-group img {
           display: block;
           margin-top: 10px;
@@ -58,7 +72,7 @@
 
       <div class="container">
         <div class="form-container">
-            <h2>Edit Car</h2>
+            <h2 class="text-center">Edit Car</h2>
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
     

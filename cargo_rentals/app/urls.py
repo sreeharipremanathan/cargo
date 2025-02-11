@@ -15,4 +15,5 @@ urlpatterns=[
     path('delete_category/<id>',views.delete_category),
     # ------user------------
     path('view_car/<id>',views.view_car),
+    path('contact',views.contact),
 ]
