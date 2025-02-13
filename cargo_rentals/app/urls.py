@@ -16,4 +16,5 @@ urlpatterns=[
     # ------user------------
     path('view_car/<id>',views.view_car),
     path('contact',views.contact),
+    path('rent_car/<id>',views.rent_car),
 ]

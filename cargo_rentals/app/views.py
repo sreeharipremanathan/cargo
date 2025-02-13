@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from .models import *
 import os
@@ -6,7 +6,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.conf import settings
-
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from django.contrib.auth.views import redirect_to_login
 
 # Create your views here.
 def cargo_login(req):
@@ -165,5 +167,54 @@ def contact(req):
         )
 
         messages.success(req, "Your message has been sent successfully!")
-        return redirect("contact_us")  # Redirect to avoid form resubmission
+        return redirect("contact_us")  
     return render(req,'user/contact.html')
+
+@login_required(login_url="/login/")  # Redirect to login if not authenticated
+def rent_car(request, id):
+    car = get_object_or_404(Car, pk=id)
+
+    if not car.is_available:
+        messages.error(request, "Sorry, this car is not available for rent.")
+        return redirect(view_car, id=car.pk)  # Fixed redirect
+
+    if request.method == "POST":
+        start_date_str = request.POST.get("start_date")
+        end_date_str = request.POST.get("end_date")
+
+        if start_date_str and end_date_str:
+            start_date = datetime.strptime(start_date_str, "%Y-%m-%d").date()
+            end_date = datetime.strptime(end_date_str, "%Y-%m-%d").date()
+
+            if start_date >= end_date:
+                messages.error(request, "End date must be after start date.")
+                return redirect(rent_car, id=car.pk)  # Fixed redirect
+
+            # Check if the car is already booked in the selected date range
+            existing_rental = Rental.objects.filter(
+                car=car,
+                start_date__lt=end_date,
+                end_date__gt=start_date,
+                status__in=["Pending", "Approved"]
+            ).exists()
+
+            if existing_rental:
+                messages.error(request, "This car is already booked for the selected dates.")
+                return redirect("rent_car", id=car.id)
+
+            num_days = (end_date - start_date).days
+            total_price = num_days * car.price_per_day
+
+            rental = Rental.objects.create(
+                user=request.user,
+                car=car,
+                start_date=start_date,
+                end_date=end_date,
+                total_price=total_price,
+                status="Pending",  # Default status is "Pending" (Admin will approve)
+            )
+
+            messages.success(request, "Your rental request has been submitted successfully!")
+            return redirect("rental_success")
+
+    return render(request, "user/rent_car.html", {"car": car})
