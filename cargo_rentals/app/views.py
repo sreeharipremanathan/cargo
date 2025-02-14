@@ -43,7 +43,7 @@ def register(req):
         name=req.POST['name']
         email=req.POST['email']
         password=req.POST['password']
-        send_mail('Accout Registration', 'Your Sportix account registration is successfull', settings.EMAIL_HOST_USER, [email])
+        send_mail('Accout Registration', 'Your Cargo account registration is successfull', settings.EMAIL_HOST_USER, [email])
         try:
             data=User.objects.create_user(first_name=name,username=email,email=email,password=password)
             data.save()
@@ -93,18 +93,18 @@ def edit_car(req,id):
     if req.method=='POST':
             name=req.POST['name']
             brand=req.POST['brand']
-            files=req.FILES['image']
+            img=req.FILES.get['image']
             fuel=req.POST['fuel']
             seats=req.POST['num_of_seats']
             price=req.POST['price_per_day']
             status = req.POST.get('is_available') == 'on'
             
-            if files:
-                Car.objects.filter(pk=id).update(name=name,brand=brand,image=files,fuel=fuel,
+            if img:
+                Car.objects.filter(pk=id).update(name=name,brand=brand,image=img,fuel=fuel,
                                     num_of_seats=seats,price_per_day=price,
                                     is_available=status)
                 data=Car.objects.get(pk=id)
-                data.image=files
+                data.image=img
                 data.save()
             else:
                 Car.objects.filter(pk=id).update(name=name,brand=brand,fuel=fuel,
@@ -170,13 +170,12 @@ def contact(req):
         return redirect("contact_us")  
     return render(req,'user/contact.html')
 
-@login_required(login_url="/login/")  # Redirect to login if not authenticated
 def rent_car(request, id):
     car = get_object_or_404(Car, pk=id)
 
     if not car.is_available:
         messages.error(request, "Sorry, this car is not available for rent.")
-        return redirect(view_car, id=car.pk)  # Fixed redirect
+        return redirect(view_car, id=car.pk)
 
     if request.method == "POST":
         start_date_str = request.POST.get("start_date")
@@ -188,19 +187,19 @@ def rent_car(request, id):
 
             if start_date >= end_date:
                 messages.error(request, "End date must be after start date.")
-                return redirect(rent_car, id=car.pk)  # Fixed redirect
+                return redirect(rent_car, id=car.pk)
 
             # Check if the car is already booked in the selected date range
             existing_rental = Rental.objects.filter(
                 car=car,
-                start_date__lt=end_date,
-                end_date__gt=start_date,
+                start_date__lte=end_date,
+                end_date__gte=start_date,
                 status__in=["Pending", "Approved"]
             ).exists()
 
             if existing_rental:
                 messages.error(request, "This car is already booked for the selected dates.")
-                return redirect("rent_car", id=car.id)
+                return redirect(rent_car, id=car.pk)
 
             num_days = (end_date - start_date).days
             total_price = num_days * car.price_per_day
@@ -210,11 +209,12 @@ def rent_car(request, id):
                 car=car,
                 start_date=start_date,
                 end_date=end_date,
+                num_days=num_days,
                 total_price=total_price,
                 status="Pending",  # Default status is "Pending" (Admin will approve)
             )
 
             messages.success(request, "Your rental request has been submitted successfully!")
-            return redirect("rental_success")
+            return redirect(rent_car, id=car.pk)
 
     return render(request, "user/rent_car.html", {"car": car})

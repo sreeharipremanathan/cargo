@@ -24,6 +24,9 @@
             font-weight: bold;
             top: 20%;
         }
+        .cars:hover{
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -60,26 +63,6 @@
         <h1>Find Your Perfect Ride</h1>
     </div>
 
-    <div class="container mt-5">
-        <div class="row mt-5">
-            {% for i in data %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4" >
-                <a href="view_car/{{i.pk}}" class="text-decoration-none">
-                    <div class="card shadow-sm border-0 product-card" style="height: 370px;">
-                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}" style="max-height: 250px; max-width: 100%;">
-                        <div class="card-body text-center">
-                            <h5 class="card-title text-dark fw-bold">{{ i.name }}</h5>
-                            <p class="card-text  fw-bold fs-5">{{ i.brand }}</p>
-                            <p class="card-text">₹ {{ i.price_per_day }}</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
-
     <!-- Services Section -->
     <div class="container mt-5">
         <h2 class="text-center mb-4">Our Services</h2>
@@ -113,6 +96,29 @@
             </div>
         </div>
     </div>
+
+    <div class="container mt-5">
+        <div class="row mt-5">
+            {% for i in data %}
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 cars" >
+                <a href="view_car/{{i.pk}}" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 product-card" style="height: 370px;">
+                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}" style="max-height: 250px; max-width: 100%;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-dark fw-bold">{{ i.name }}</h5>
+                            <p class="card-text  fw-bold fs-5">{{ i.brand }}</p>
+                            <p class="card-text  fw-bold fs-8">{{ i.category.category }}</p>
+                            <p class="card-text">₹ {{ i.price_per_day }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3 mt-5">
