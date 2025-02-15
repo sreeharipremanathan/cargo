@@ -88,32 +88,37 @@ def add_car(req):
             return render(req,'admin/add_car.html',{'data':data})
     return render(req,'admin/add_car.html')
 
-def edit_car(req,id):
-    # car=Car.objects.get(pk=id)
-    if req.method=='POST':
-            name=req.POST['name']
-            brand=req.POST['brand']
-            img=req.FILES.get['image']
-            fuel=req.POST['fuel']
-            seats=req.POST['num_of_seats']
-            price=req.POST['price_per_day']
-            status = req.POST.get('is_available') == 'on'
-            
-            if img:
-                Car.objects.filter(pk=id).update(name=name,brand=brand,image=img,fuel=fuel,
-                                    num_of_seats=seats,price_per_day=price,
-                                    is_available=status)
-                data=Car.objects.get(pk=id)
-                data.image=img
-                data.save()
-            else:
-                Car.objects.filter(pk=id).update(name=name,brand=brand,fuel=fuel,
-                                    num_of_seats=seats,price_per_day=price,
-                                    is_available=status)
-            return redirect(admin_home)
+def edit_car(req, id):
+    if req.method == 'POST':
+        name = req.POST['name']
+        brand = req.POST['brand']
+        img = req.FILES.get('image')  # Fixed this line
+        fuel = req.POST['fuel']
+        seats = req.POST['num_of_seats']
+        price = req.POST['price_per_day']
+        status = req.POST.get('is_available') == 'on'
+
+        if img:
+            Car.objects.filter(pk=id).update(
+                name=name, brand=brand, image=img, fuel=fuel,
+                num_of_seats=seats, price_per_day=price,
+                is_available=status
+            )
+            data = Car.objects.get(pk=id)
+            data.image = img
+            data.save()
+        else:
+            Car.objects.filter(pk=id).update(
+                name=name, brand=brand, fuel=fuel,
+                num_of_seats=seats, price_per_day=price,
+                is_available=status
+            )
+
+        return redirect(admin_home)
     else:
-        data=Car.objects.get(pk=id)
-        return render(req,'admin/edit_car.html',{'data':data})
+        data = Car.objects.get(pk=id)
+        return render(req, 'admin/edit_car.html', {'data': data})
+
 
 def delete_car(req,id):
     data=Car.objects.get(pk=id)
