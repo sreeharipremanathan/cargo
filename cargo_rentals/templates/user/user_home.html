@@ -42,6 +42,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">categories</a>
+                        <ul class="dropdown-menu">
+                            {% for i in cat %}
+                            <li><a class="dropdown-item " href="view_category/{{ i.pk }}">{{i.category}}</a></li>
+                            {% endfor %}
+                        </ul>
+                      </li> 
                     <li class="nav-item"><a class="nav-link" href="#">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                     
@@ -68,17 +76,16 @@
         <h2 class="text-center mb-4">Our Services</h2>
         <div class="row">
             <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <!-- <img src="https://source.unsplash.com/400x300/?luxury,car" class="card-img-top" alt="Luxury Cars"> -->
-                    <div class="card-body">
-                        <h5 class="card-title">Luxury Cars</h5>
-                        <p class="card-text">Experience premium rides with our luxury fleet.</p>
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Luxury Cars</h5>
+                            <p class="card-text">Experience premium rides with our luxury fleet.</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm">
-                    <!-- <img src="https://source.unsplash.com/400x300/?suv,car" class="card-img-top" alt="SUVs"> -->
                     <div class="card-body">
                         <h5 class="card-title">SUVs</h5>
                         <p class="card-text">Spacious and comfortable SUVs for your adventures.</p>
@@ -87,7 +94,6 @@
             </div>
             <div class="col-md-4">
                 <div class="card shadow-sm">
-                    <!-- <img src="https://source.unsplash.com/400x300/?car,rental" class="card-img-top" alt="Economy Cars"> -->
                     <div class="card-body">
                         <h5 class="card-title">Economy Cars</h5>
                         <p class="card-text">Affordable and efficient cars for daily use.</p>

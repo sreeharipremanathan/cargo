@@ -150,7 +150,8 @@ def add_category(req):
 # ---------user-----------------------
 def cargo_home(req):
     data=Car.objects.all()
-    return render(req,'user/user_home.html',{'data':data})
+    cat=Category.objects.all()
+    return render(req,'user/user_home.html',{'data':data,"cat":cat})
 
 def view_car(req,id):
     data=Car.objects.get(pk=id)
@@ -223,3 +224,11 @@ def rent_car(request, id):
             return redirect(rent_car, id=car.pk)
 
     return render(request, "user/rent_car.html", {"car": car})
+
+def view_category(req,id):
+    category = Category.objects.get(pk=id)
+    cat=Category.objects.all()
+    car = Car.objects.filter(category=category)
+    print(car)
+    print(category)
+    return render(req, 'user/category.html', {'category': category,'car': car,"cat":cat})
