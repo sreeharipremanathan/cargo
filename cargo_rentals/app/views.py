@@ -92,7 +92,7 @@ def edit_car(req, id):
     if req.method == 'POST':
         name = req.POST['name']
         brand = req.POST['brand']
-        img = req.FILES.get('image')  # Fixed this line
+        img = req.FILES.get('image') 
         fuel = req.POST['fuel']
         seats = req.POST['num_of_seats']
         price = req.POST['price_per_day']
@@ -147,6 +147,22 @@ def add_category(req):
          return redirect(cargo_home)
 
 
+def manage_rentals(request):
+    rentals = Rental.objects.all()
+    return render(request, "admin/manage_rentals.html", {"rentals": rentals})
+
+def update_rental_status(request, rental_id, status):
+    rental = get_object_or_404(Rental, id=rental_id)
+    if status in ["Approved", "Rejected", "Completed"]:
+        rental.status = status
+        rental.save()
+        messages.success(request, f"Rental status updated to {status}")
+    else:
+        messages.error(request, "Invalid status update")
+    return redirect("manage_rentals")
+
+
+
 # ---------user-----------------------
 def cargo_home(req):
     data=Car.objects.all()
@@ -155,9 +171,11 @@ def cargo_home(req):
 
 def view_car(req,id):
     data=Car.objects.get(pk=id)
-    return render(req,'user/view_car.html',{'data':data})
+    cat=Category.objects.all()
+    return render(req,'user/view_car.html',{'data':data,"cat":cat})
 
 def contact(req):
+    cat=Category.objects.all()
     if req.method == "POST":
         name = req.POST["name"]
         email = req.POST["email"]
@@ -174,9 +192,10 @@ def contact(req):
 
         messages.success(req, "Your message has been sent successfully!")
         return redirect("contact_us")  
-    return render(req,'user/contact.html')
+    return render(req,'user/contact.html',{"cat":cat})
 
 def rent_car(request, id):
+    cat=Category.objects.all()
     car = get_object_or_404(Car, pk=id)
 
     if not car.is_available:
@@ -195,7 +214,6 @@ def rent_car(request, id):
                 messages.error(request, "End date must be after start date.")
                 return redirect(rent_car, id=car.pk)
 
-            # Check if the car is already booked in the selected date range
             existing_rental = Rental.objects.filter(
                 car=car,
                 start_date__lte=end_date,
@@ -217,13 +235,13 @@ def rent_car(request, id):
                 end_date=end_date,
                 num_days=num_days,
                 total_price=total_price,
-                status="Pending",  # Default status is "Pending" (Admin will approve)
+                status="Pending",  
             )
 
             messages.success(request, "Your rental request has been submitted successfully!")
             return redirect(rent_car, id=car.pk)
 
-    return render(request, "user/rent_car.html", {"car": car})
+    return render(request, "user/rent_car.html", {"car": car,"cat":cat})
 
 def view_category(req,id):
     category = Category.objects.get(pk=id)

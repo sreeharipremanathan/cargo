@@ -43,10 +43,10 @@
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">categories</a>
+                        <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown">categories</a>
                         <ul class="dropdown-menu">
                             {% for i in cat %}
-                            <li><a class="dropdown-item " href="view_category/{{ i.pk }}">{{i.category}}</a></li>
+                            <li><a class="dropdown-item " href="../view_category/{{ i.pk }}">{{i.category}}</a></li>
                             {% endfor %}
                         </ul>
                       </li> 

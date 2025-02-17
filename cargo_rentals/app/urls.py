@@ -13,6 +13,8 @@ urlpatterns=[
     path('add_category',views.add_category),
     path('delete_car/<id>',views.delete_car),
     path('delete_category/<id>',views.delete_category),
+    path('manage_rentals/', views.manage_rentals, name='manage_rentals'),
+    path('update_rental_status/<int:rental_id>/<str:status>/', views.update_rental_status, name='update_rental_status'),
     # ------user------------
     path('view_car/<id>',views.view_car),
     path('contact',views.contact),

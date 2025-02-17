@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../admin_home">Home</a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="../logout">Logout</a>
+              </li>  
+            </ul>
+          </div>
+        </div>
+      </nav>
+    {% block content %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-relative" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close position-absolute aria-hidden=true top-0 end-0 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="container">
+        <h2 class="text-center mb-4">Manage Rentals</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Car</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                <tr>
+                    <td>{{ rental.user.username }}</td>
+                    <td>{{ rental.car.name }}</td>
+                    <td>{{ rental.start_date }}</td>
+                    <td>{{ rental.end_date }}</td>
+                    <td>₹{{ rental.total_price }}</td>
+                    <td>{{ rental.status }}</td>
+                    <td>
+                        {% if rental.status == "Pending" %}
+                        <a href="{% url 'update_rental_status' rental.id 'Approved' %}" class="btn btn-success btn-sm">Approve</a>
+                        <a href="{% url 'update_rental_status' rental.id 'Rejected' %}" class="btn btn-danger btn-sm">Reject</a>
+                        {% elif rental.status == "Approved" %}
+                        <a href="{% url 'update_rental_status' rental.id 'Completed' %}" class="btn btn-primary btn-sm">Mark as Completed</a>
+                        {% endif %}
+                    
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endblock %}
+
+</body>
+</html>
