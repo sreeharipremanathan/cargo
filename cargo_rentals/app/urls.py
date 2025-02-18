@@ -19,5 +19,7 @@ urlpatterns=[
     path('view_car/<id>',views.view_car),
     path('contact',views.contact),
     path('rent_car/<id>',views.rent_car),
-    path('view_category/<id>',views.view_category)
+    path('view_category/<id>',views.view_category),
+    path('profile',views.user_profile),
+    path('update_username',views.update_username),
 ]

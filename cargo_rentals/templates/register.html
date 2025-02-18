@@ -14,20 +14,29 @@
     <title>register</title>
 </head>
 <body>
-    <form action="" method="post">
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success
+            {% elif message.tags == 'error' %}alert-danger
+            {% endif %}
+            alert-dismissible fade show position-relative" role="alert">
+            
+            {{ message }}
+
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" 
+                data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    {% endfor %}
+    {% endif %}
+
+        <br>
+    <form action="" method="post" >
         {% csrf_token %}
 
         <h3>Register Here</h3>
-        {% if messages %}
-        {% for message in messages %}
-
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-
+        
         <label for="username">name</label>
         <input type="text" placeholder="name" id="username" name="name">
         <label for="username">Username</label>
@@ -39,6 +48,15 @@
         <button type="submit" value="register">Register</button>
         
     </form>
-
+    <script>
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            var password = document.getElementById("password").value;
+            
+            if (password.length < 8) {
+                alert("Password must be at least 8 characters long.");
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
