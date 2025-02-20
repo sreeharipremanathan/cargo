@@ -25,12 +25,44 @@
             font-weight: bold;
             top: 20%;
         }
+        .Luxury{
+            background: url("{% static 'images/s_class.webp' %}") center/cover no-repeat;
+            height: 200px;
+
+        }
+        .suv{
+            background: url("{% static 'images/xuv700.webp' %}") center/cover no-repeat;
+            height: 200px;
+        }
+        .Economy{
+            background: url("{% static 'images/kylaq.webp' %}") center/cover no-repeat;
+            height: 200px;
+        }
+        .cars-card{
+            height: 360px;
+        }
+        .product-img{
+            max-height: 250px; max-width: 100%; padding: 10px;
+        }
         .cars:hover{
             transform: scale(1.05);
+        }
+        #seeMoreBtn{
+            color: black;
+            background-color: #dfdfe0;
+        }
+        #seeLessBtn{
+            color: black;
+            background-color: #dfdfe0;
         }
         footer a{
           color: white;
           text-decoration: none;
+        }
+        @media only screen and (max-width:768px) and (min-width:576px){
+            .cars-card{
+                height: 800px;
+            }
         }
     </style>
 </head>
@@ -38,7 +70,7 @@
 
     <!-- Navbar -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: black;">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: black;">
         <div class="container">
             <a class="navbar-brand" href="#">CarGo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -47,7 +79,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown ">
                         <a class="nav-link " href="#" role="button" data-bs-toggle="dropdown">Categories</a>
                         <ul class="dropdown-menu">
                             {% for i in cat %}
@@ -65,7 +97,7 @@
                     {% endif %}
 
                     {% if user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="profile">
+                        <li class="nav-item"><a class="nav-link" href="../profile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
@@ -82,33 +114,32 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>Find Your Perfect Ride</h1>
+        <h1>Find Your Perfect Ride With CarGo</h1>
     </div>
 
     <!-- Services Section -->
     <div class="container mt-5">
         <h2 class="text-center mb-4">Our Services</h2>
-        <div class="row">
-            <div class="col-md-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">Luxury Cars</h5>
-                            <p class="card-text">Experience premium rides with our luxury fleet.</p>
-                        </div>
+        <div class="row g-3"> <!-- g-3 adds spacing between cards -->
+            <div class="col-12 col-md-4">
+                <div class="card shadow-sm w-100 Luxury">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Luxury Cars</h5>
+                        <p class="card-text">Experience premium rides with our luxury fleet.</p>
                     </div>
-                </a>
+                </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
+            <div class="col-12 col-md-4">
+                <div class="card shadow-sm w-100 suv">
+                    <div class="card-body text-center">
                         <h5 class="card-title">SUVs</h5>
                         <p class="card-text">Spacious and comfortable SUVs for your adventures.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <div class="card-body">
+            <div class="col-12 col-md-4">
+                <div class="card shadow-sm w-100 Economy">
+                    <div class="card-body text-center">
                         <h5 class="card-title">Economy Cars</h5>
                         <p class="card-text">Affordable and efficient cars for daily use.</p>
                     </div>
@@ -116,24 +147,32 @@
             </div>
         </div>
     </div>
+    
 
     <div class="container mt-5">
+        <h2 class="text-center mb-4">Our Collection</h2>
         <div class="row mt-5">
             {% for i in data %}
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 cars" >
+            <div class="col-lg-3 col-md-4 col-6 mb-4 cars {% if forloop.counter > 8 %}d-none more-cars{% endif %}">
                 <a href="view_car/{{i.pk}}" class="text-decoration-none">
-                    <div class="card shadow-sm border-0 product-card" style="height: 370px;">
-                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}" style="max-height: 250px; max-width: 100%;">
+                    <div class="card shadow-sm border-0 product-card cars-card">
+                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}">
                         <div class="card-body text-center">
                             <h5 class="card-title text-dark fw-bold">{{ i.name }}</h5>
-                            <p class="card-text  fw-bold fs-5">{{ i.brand }}</p>
-                            <p class="card-text  fw-bold fs-8">{{ i.category.category }}</p>
-                            <p class="card-text">₹ {{ i.price_per_day }}</p>
+                            <p class="card-text fw-bold fs-8">{{ i.brand }}</p>
+                            <p class="card-text fw-bold fs-8">{{ i.category.category }}</p>
+                            <p class="card-text">₹ {{ i.price_per_day }}/Day</p>
                         </div>
                     </div>
                 </a>
             </div>
             {% endfor %}
+        </div>
+    
+        <!-- Buttons -->
+        <div class="text-center mt-3">
+            <button id="seeMoreBtn" class="btn">See More</button>
+            <button id="seeLessBtn" class="btn d-none">See Less</button>
         </div>
     </div>
 
@@ -206,6 +245,22 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script>
+        document.getElementById("seeMoreBtn").addEventListener("click", function() {
+            let hiddenCars = document.querySelectorAll(".more-cars");
+            hiddenCars.forEach(car => car.classList.remove("d-none")); 
+            
+            this.classList.add("d-none");  // Hide "See More"
+            document.getElementById("seeLessBtn").classList.remove("d-none");  // Show "See Less"
+        });
+    
+        document.getElementById("seeLessBtn").addEventListener("click", function() {
+            let hiddenCars = document.querySelectorAll(".more-cars");
+            hiddenCars.forEach(car => car.classList.add("d-none")); 
+            
+            this.classList.add("d-none");  // Hide "See Less"
+            document.getElementById("seeMoreBtn").classList.remove("d-none");  // Show "See More"
+        });
+    </script>
 </body>
 </html>

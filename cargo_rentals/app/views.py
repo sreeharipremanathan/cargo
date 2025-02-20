@@ -296,13 +296,21 @@ def user_profile(req):
     return render(req,'user/user_profile.html',{'rentals':rentals,'cat':cat})
 
 def update_username(request):
-    cat=Category.objects.all()
     if request.method == "POST":
-        new_first_name = request.POST.get("username")
-        if new_first_name:
+        new_first_name = request.POST.get("name")
+        new_username = request.POST.get('username')
+
+        # Check if the new username already exists (excluding the current user)
+        if User.objects.exclude(id=request.user.id).filter(username=new_username).exists():
+            messages.error(request, "This username is already taken. Please choose another one.")
+            return redirect(user_profile)
+
+        if new_first_name and new_username:
             request.user.first_name = new_first_name
+            request.user.username = new_username
             request.user.save()
             messages.success(request, "Username updated successfully!")
         else:
             messages.error(request, "Username cannot be empty.")
+
     return redirect(user_profile)
