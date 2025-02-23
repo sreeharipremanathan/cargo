@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import create_razorpay_order, razorpay_success
 
 urlpatterns=[
     path('',views.cargo_home),
@@ -24,4 +25,6 @@ urlpatterns=[
     path('view_category/<id>',views.view_category),
     path('profile',views.user_profile),
     path('update_username',views.update_username),
+    path("payment/<int:rental_id>/", create_razorpay_order, name="payment"),
+    path("payment/success/", razorpay_success, name="payment_success"),
 ]

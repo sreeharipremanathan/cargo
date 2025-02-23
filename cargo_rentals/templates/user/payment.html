@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="razorpay-form">
+        <script src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="{{ razorpay_key }}"
+            data-amount="{{ amount }}"
+            data-currency="INR"
+            data-order_id="{{ order_id }}"
+            data-buttontext="Pay Now"
+            data-name="CarGo Rentals"
+            data-description="Car Rental Payment"
+            data-image="your_logo_url"
+            data-prefill.name="{{ request.user.first_name }}"
+            data-prefill.email="{{ request.user.email }}"
+            data-theme.color="#007bff">
+        </script>
+    </form>    
+</body>
+</html>

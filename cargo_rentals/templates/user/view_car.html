@@ -11,6 +11,23 @@
           color: white;
           text-decoration: none;
         }
+        @media (max-width: 768px) {
+            .car-container {
+                max-width: 90%;
+                padding: 10px;
+            }
+            .car-img {
+                max-height: 200px; /* Smaller image on mobile */
+            }
+            .text-start p {
+                font-size: 14px; /* Reduce font size */
+            }
+            .btn {
+                font-size: 14px; /* Smaller buttons */
+                padding: 8px 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -63,38 +80,38 @@
     </div>
     {% endfor %}
     {% endif %}
+
     <div class="container mt-4">
-        <div class="car-container">
-            <h2 class="text-center">{{ data.name }}</h2>
-            <img src="{{ data.image.url }}" alt="{{ data.name }}" class="car-img" style="max-height: 300px; max-width: 100%;">
-            
-            <div class="mt-3">
-                <p><strong>Brand:</strong> {{ data.brand }}</p>
-                <p><strong>Fuel Type:</strong> {{ data.fuel }}</p>
-                <p><strong>Category:</strong> {{ data.category.category }}</p>
-                <p><strong>Seats:</strong> {{ data.num_of_seats }}</p>
-                <p><strong>Price Per Day:</strong> ₹{{ data.price_per_day }}</p>
-                <p>
-                    <strong>Availability:</strong> 
-                    <span class="{% if data.is_available %}text-success fw-bold{% else %}text-danger fw-bold{% endif %}">
-                        {% if data.is_available %}Available{% else %}Not Available{% endif %}
-                    </span>
-                </p>
-            </div>
-    
-            <div class="text-center mt-4">
-                {% if user.is_authenticated %}
-                    <a href="../rent_car/{{ data.id }}" class="btn btn-primary ">
-                        Rent Now
-                    </a>
-                {% else %}
-                    <a href="../login" class="btn btn-warning">Login to Rent</a>
-                {% endif %}
-                <a href="../" class="btn btn-secondary">Back to Home</a>
-            </div>
-            
+    <div class="car-container text-center mx-auto" style="max-width: 600px;">
+        <h2 class="text-center mb-4" style="font-size: 32px;">{{ data.name }}</h2>
+        <img src="{{ data.image.url }}" alt="{{ data.name }}" class="car-img img-fluid rounded"
+             style="max-height: 250px; width: 100%; object-fit: cover;">
+        
+        <div class="mt-3 text-start">
+            <p class="mb-1"><strong>Brand:</strong> {{ data.brand }}</p>
+            <p class="mb-1"><strong>Fuel Type:</strong> {{ data.fuel }}</p>
+            <p class="mb-1"><strong>Category:</strong> {{ data.category.category }}</p>
+            <p class="mb-1"><strong>Seats:</strong> {{ data.num_of_seats }}</p>
+            <p class="mb-1"><strong>Price Per Day:</strong> ₹{{ data.price_per_day }}</p>
+            <p class="mb-1">
+                <strong>Availability:</strong> 
+                <span class="{% if data.is_available %}text-success fw-bold{% else %}text-danger fw-bold{% endif %}">
+                    {% if data.is_available %}Available{% else %}Not Available{% endif %}
+                </span>
+            </p>
+        </div>
+
+        <div class="text-center mt-3">
+            {% if user.is_authenticated %}
+                <a href="../rent_car/{{ data.id }}" class="btn btn-dark btn-sm px-3">Rent Now</a>
+            {% else %}
+                <a href="../login" class="btn btn-warning btn-sm px-3">Login to Rent</a>
+            {% endif %}
+            <a href="../" class="btn btn-secondary btn-sm px-3">Back to Home</a>
         </div>
     </div>
+</div>
+
 
     <!-- Footer -->
     <footer class=" text-white  py-3 mt-5" style="background-color: black;">

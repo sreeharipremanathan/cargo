@@ -106,10 +106,43 @@
             </div>
         </div>
     </div>
-        <div class=" container">
-            <h2 class="mt-5">Recent Bookings</h2>
-            {% if rentals %}
-                {% for rental in rentals|slice:":3" %}  {# Show only 3 bookings initially #}
+    <div class="container">
+        <h2 class="mt-5">Recent Bookings</h2>
+        {% if rentals %}
+            {% for rental in rentals|slice:":3" %}  {# Show only 3 bookings initially #}
+            <div class="card mb-3 shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <img src="{{ rental.car.image.url }}" class="img-fluid rounded-start" alt="{{ rental.car.name }}" style="max-width: 190px; height: auto;">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ rental.car.name }}</h5>
+                            <p class="card-text"><strong>Start Date:</strong> {{ rental.start_date }}</p>
+                            <p class="card-text"><strong>End Date:</strong> {{ rental.end_date }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex flex-column justify-content-center align-items-end pe-3">
+                        <h5 class="text-primary">₹{{ rental.total_price }}</h5>
+                        <p class="mb-1">
+                            {% if rental.status == "Pending" %}
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            {% elif rental.status == "Approved" %}
+                                <span class="badge bg-success">Approved</span>
+                                <a href="{% url 'payment' rental.car.id %}" class="btn btn-success mt-2">Payment</a>
+                            {% elif rental.status == "Rejected" %}
+                                <span class="badge bg-danger">Rejected</span>
+                            {% elif rental.status == "Completed" %}
+                                <span class="badge bg-primary">Completed</span>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    
+            <div id="fullBookings" style="display: none;">
+                {% for rental in rentals|slice:"3:" %} 
                 <div class="card mb-3 shadow-sm">
                     <div class="row g-0">
                         <div class="col-md-2 d-flex align-items-center justify-content-center">
@@ -129,6 +162,7 @@
                                     <span class="badge bg-warning text-dark">Pending</span>
                                 {% elif rental.status == "Approved" %}
                                     <span class="badge bg-success">Approved</span>
+                                    <a href="{% url 'payment' rental.car.id %}" class="btn btn-success mt-2">Payment</a>
                                 {% elif rental.status == "Rejected" %}
                                     <span class="badge bg-danger">Rejected</span>
                                 {% elif rental.status == "Completed" %}
@@ -139,47 +173,16 @@
                     </div>
                 </div>
                 {% endfor %}
-
-                <div id="fullBookings" style="display: none;">
-                    {% for rental in rentals|slice:"3:" %} 
-                    <div class="card mb-3 shadow-sm">
-                        <div class="row g-0">
-                            <div class="col-md-2 d-flex align-items-center justify-content-center">
-                                <img src="{{ rental.car.image.url }}" class="img-fluid rounded-start" alt="{{ rental.car.name }}" style="max-width: 120px; height: auto;">
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ rental.car.name }}</h5>
-                                    <p class="card-text"><strong>Start Date:</strong> {{ rental.start_date }}</p>
-                                    <p class="card-text"><strong>End Date:</strong> {{ rental.end_date }}</p>
-                                </div>
-                            </div>
-                            <div class="col-md-3 d-flex flex-column justify-content-center align-items-end pe-3">
-                                <h5 class="text-primary">₹{{ rental.total_price }}</h5>
-                                <p class="mb-1">
-                                    {% if rental.status == "Pending" %}
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    {% elif rental.status == "Approved" %}
-                                        <span class="badge bg-success">Approved</span>
-                                    {% elif rental.status == "Rejected" %}
-                                        <span class="badge bg-danger">Rejected</span>
-                                    {% elif rental.status == "Completed" %}
-                                        <span class="badge bg-primary">Completed</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <div class="text-center mt-3">
-                    <button id="toggleBookings" class="btn">See More</button>
-                </div>
-            {% else %}
-                <p class="text-center text-muted">No bookings yet.</p>
-            {% endif %}
-        </div>
+            </div>
+    
+            <div class="text-center mt-3">
+                <button id="toggleBookings" class="btn">See More</button>
+            </div>
+        {% else %}
+            <p class="text-center text-muted">No bookings yet.</p>
+        {% endif %}
+    </div>
+    
             
         {% endblock %}
     

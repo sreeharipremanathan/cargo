@@ -11,20 +11,27 @@
         body {
             background-color: #f8f9fa;
         }
-        .hero {
-            background: url("{% static 'images/kia_carnival1.jpeg' %}") center/cover no-repeat;
+        /* .hero {
+            background: url("{% static 'images/kia_carnival10.jpeg' %}") center/cover no-repeat;
             padding: 200px 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        } */
+        .hero {
+            background: url("{% static 'images/kia_carnival10.jpeg' %}") center/cover no-repeat;
+            color: white;
+            /* text-align: center; */
+            padding: 190px 20px;
+            left: 10%;
         }
-        .hero h1 {
+        /* .hero h1 {
             font-size: 3rem;
             font-weight: bold;
             top: 20%;
-        }
+        } */
         .Luxury{
             background: url("{% static 'images/s_class.webp' %}") center/cover no-repeat;
             height: 200px;
@@ -45,7 +52,7 @@
             max-height: 250px; max-width: 100%; padding: 10px;
         }
         .cars:hover{
-            transform: scale(1.05);
+            transform: scale(1.01);
         }
         #seeMoreBtn{
             color: black;
@@ -62,6 +69,9 @@
         @media only screen and (max-width:768px) and (min-width:576px){
             .cars-card{
                 height: 800px;
+            }
+            .cars:hover{
+                transform: none;
             }
         }
     </style>
@@ -115,8 +125,13 @@
     
 
     <!-- Hero Section -->
-    <div class="hero">
+    <!-- <div class="hero">
         <h1>Find Your Perfect Ride With CarGo</h1>
+    </div> -->
+
+    <div class="hero">
+        <h1 class="display-4 fw-bold">Drive Your Dreams</h1>
+        <p class="lead">Affordable & Luxury Car Rentals at Your Fingertips!</p>
     </div>
 
     <!-- Services Section -->

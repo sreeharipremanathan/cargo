@@ -9,6 +9,9 @@ from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from datetime import datetime
+import razorpay
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def cargo_login(req):
@@ -321,3 +324,42 @@ def update_username(request):
             messages.error(request, "Username and Name cannot be empty.")
 
     return redirect(user_profile)  # Ensure this matches your URL name
+
+def create_razorpay_order(request, rental_id):
+    rental = Rental.objects.get(id=rental_id)
+    print(f"Rental ID: {rental_id}, Total Price: {rental.total_price}")
+    
+    client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+    # Define payment amount in paisa (₹1 = 100 paisa)
+    amount = int(rental.total_price * 100)
+    # Create a Razorpay order
+    order_data = {
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": "1"
+    }
+    order = client.order.create(data=order_data)
+
+    # Pass order details to template
+    return render(request, "user/payment.html", {
+        "rental": rental,
+        "razorpay_key": settings.RAZORPAY_KEY_ID,
+        "order_id": order["id"],
+        "amount": amount // 100
+    })
+    
+@csrf_exempt
+def razorpay_success(request):
+    if request.method == "POST":
+        response = request.POST
+        payment_id = response.get("razorpay_payment_id")
+        order_id = response.get("razorpay_order_id")
+        signature = response.get("razorpay_signature")
+
+        # Save the payment details in the database (optional)
+        print("Payment Successful:", payment_id, order_id)
+
+        return JsonResponse({"status": "success", "payment_id": payment_id})
+    
+    return JsonResponse({"status": "failed"})
