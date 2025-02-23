@@ -10,6 +10,22 @@
           color: white;
           text-decoration: none;
         }
+        @media (max-width: 768px) {
+            .product-card {
+                max-width: 100%;
+                height: auto;
+                padding: 5px;
+            }
+            .product-img {
+                max-height: 150px; /* Smaller images for mobile */
+            }
+            .card-body {
+                padding: 10px;
+            }
+            .card-body h6, .card-body p {
+                font-size: 14px !important; /* Adjust text size */
+            }
+        }
     </style>
 </head>
 <body>
@@ -30,7 +46,7 @@
                             {% endfor %}
                         </ul>
                       </li> 
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../about">About</a></li>
                     <li class="nav-item"><a class="nav-link" href="../contact">Contact</a></li>
                     
                     {% if user.is_authenticated %}
@@ -53,19 +69,24 @@
         </div>
     </nav>
 
-      <div class="container mt-5">
-        <h3 class="text-center text-uppercase mb-4" style="color: #000000;">cars in {{ category.category }}</h3>
+    <div class="container mt-5">
+        <h3 class="text-center text-uppercase mb-4" style="color: #000000;">
+            Cars in {{ category.category }}
+        </h3>
         <div class="row mt-5">
             {% for i in car %}
-            <div class="col-lg-3 col-lg-4 col-md-6 mb-5 cars" >
+            <div class="col-lg-3 col-lg-4 col-sm-6 col-12 mb-3">
                 <a href="../view_car/{{i.pk}}" class="text-decoration-none">
-                    <div class="card shadow-sm border-0 product-card" style="height: 430px;">
-                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid" alt="{{ i.name }}" style="max-height: 250px; max-width: 100%;">
+                    <div class="card shadow-sm border-0 product-card mx-auto"
+                         style="height: auto; max-width: 90%; padding: 10px;">
+                        <img src="{{ i.image.url }}" class="card-img-top product-img img-fluid"
+                             alt="{{ i.name }}"
+                             style="max-height: 180px; object-fit: cover;">
                         <div class="card-body text-center">
-                            <h5 class="card-title text-dark fw-bold">{{ i.name }}</h5>
-                            <p class="card-text  fw-bold fs-5">{{ i.brand }}</p>
-                            <p class="card-text  fw-bold fs-8">{{ i.category.category }}</p>
-                            <p class="card-text">₹ {{ i.price_per_day }}</p>
+                            <h6 class="card-title text-dark fw-bold" style="font-size: 16px;">{{ i.name }}</h6>
+                            <p class="card-text fw-bold fs-7" style="font-size: 14px;">{{ i.brand }}</p>
+                            <p class="card-text fw-bold fs-8" style="font-size: 12px;">{{ i.category.category }}</p>
+                            <p class="card-text" style="font-size: 14px;">₹ {{ i.price_per_day }}/Day</p>
                         </div>
                     </div>
                 </a>
@@ -73,6 +94,8 @@
             {% endfor %}
         </div>
     </div>
+    
+    
 
     <footer class=" text-white  py-3 mt-5" style="background-color: black;">
         <h6 class="text-center mt-3 ">&copy; 2025 Car Rentals. All Rights Reserved.</h6>

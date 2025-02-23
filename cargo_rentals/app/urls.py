@@ -11,6 +11,7 @@ urlpatterns=[
     path('add_car',views.add_car),
     path('edit_car/<id>',views.edit_car),
     path('add_category',views.add_category),
+    path('view_cat/<id>',views.view_cat),
     path('delete_car/<id>',views.delete_car),
     path('delete_category/<id>',views.delete_category),
     path('manage_rentals/', views.manage_rentals, name='manage_rentals'),
@@ -18,6 +19,7 @@ urlpatterns=[
     # ------user------------
     path('view_car/<id>',views.view_car),
     path('contact',views.contact),
+    path('about',views.about),
     path('rent_car/<id>',views.rent_car),
     path('view_category/<id>',views.view_category),
     path('profile',views.user_profile),

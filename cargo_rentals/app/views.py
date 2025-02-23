@@ -166,6 +166,10 @@ def add_category(req):
     else:
          return redirect(cargo_home)
 
+def view_cat(req,id):
+    category = Category.objects.get(pk=id)
+    car = Car.objects.filter(category=category)
+    return render(req, 'admin/view_cat.html', {'category': category,'car': car})
 
 def manage_rentals(request):
     rentals = Rental.objects.all().order_by("-id")
@@ -213,6 +217,10 @@ def view_car(req,id):
     cat=Category.objects.all()
     return render(req,'user/view_car.html',{'data':data,"cat":cat})
 
+def about(req):
+    cat=Category.objects.all()
+    return render(req,'user/about.html',{"cat":cat})
+
 def contact(req):
     cat=Category.objects.all()
     if req.method == "POST":
@@ -225,12 +233,12 @@ def contact(req):
             subject=f"New Contact Form Submission from {name}",
             message=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
             from_email=email,
-            recipient_list=["yourbusiness@email.com"],  # Replace with your email
+            recipient_list=["sreeharipremanathan@gmail.com"],  # Replace with your email
             fail_silently=True,
         )
 
         messages.success(req, "Your message has been sent successfully!")
-        return redirect("contact_us")  
+        return redirect(contact )  
     return render(req,'user/contact.html',{"cat":cat})
 
 def rent_car(request, id):
@@ -286,8 +294,6 @@ def view_category(req,id):
     category = Category.objects.get(pk=id)
     cat=Category.objects.all()
     car = Car.objects.filter(category=category)
-    print(car)
-    print(category)
     return render(req, 'user/category.html', {'category': category,'car': car,"cat":cat})
 
 def user_profile(req):
@@ -298,19 +304,20 @@ def user_profile(req):
 def update_username(request):
     if request.method == "POST":
         new_first_name = request.POST.get("name")
-        new_username = request.POST.get('username')
+        new_username = request.POST.get("username")
 
         # Check if the new username already exists (excluding the current user)
-        if User.objects.exclude(id=request.user.id).filter(username=new_username).exists():
+        if User.objects.filter(username=new_username).exclude(id=request.user.id).exists():
             messages.error(request, "This username is already taken. Please choose another one.")
-            return redirect(user_profile)
+            return redirect(user_profile)  # Ensure this matches your URL name
 
+        # Ensure both fields are filled
         if new_first_name and new_username:
             request.user.first_name = new_first_name
             request.user.username = new_username
             request.user.save()
             messages.success(request, "Username updated successfully!")
         else:
-            messages.error(request, "Username cannot be empty.")
+            messages.error(request, "Username and Name cannot be empty.")
 
-    return redirect(user_profile)
+    return redirect(user_profile)  # Ensure this matches your URL name
