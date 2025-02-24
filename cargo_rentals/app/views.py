@@ -48,19 +48,18 @@ def register(req):
         password = req.POST['password']
         
         try:
-            # Validate password strength
             validate_password(password)
             
-            # Check if email already exists
+            
             if User.objects.filter(email=email).exists():
                 messages.warning(req, 'User with this email already exists.')
                 return redirect(register)
 
-            # Create user if valid
+            
             user = User.objects.create_user(first_name=name, username=email, email=email, password=password)
             user.save()
 
-            # Send registration success email
+            
             send_mail(
                 'Account Registration',
                 'Your Cargo account registration was successful.',
@@ -72,7 +71,7 @@ def register(req):
             return redirect(cargo_login)
 
         except ValidationError as e:
-            messages.error(req, ', '.join(e))  # Show password validation errors
+            messages.error(req, ', '.join(e)) 
             return redirect(register)
         
     return render(req, 'register.html')
@@ -193,6 +192,14 @@ def update_rental_status(request, rental_id, status):
 
             send_mail(subject, message, sender_email, [recipient_email])
 
+        elif status == "Rejected":
+            subject = "Your Car Rental Has Been Rejected!"
+            message = f"Hello {rental.user.username},\n\nSORRY!!!  Your car rental for {rental.car.name} has been Rejected.\n\nStart Date: {rental.start_date}\nEnd Date: {rental.end_date}\nTotal Price: ₹{rental.total_price}\n\nThank you for using our service!\n\nBest Regards,\nDrive Your Way! \nCarGo Rental Team"
+            recipient_email = rental.user.email
+            sender_email = settings.EMAIL_HOST_USER
+
+            send_mail(subject, message, sender_email, [recipient_email])
+
         elif status == "Completed":
             subject = "Your Car Rental Has Been Completed!"
             message = f"Hello {rental.user.username},\n\nYour car rental for {rental.car.name} has been Completed.\n\nStart Date: {rental.start_date}\nEnd Date: {rental.end_date}\nTotal Price: ₹{rental.total_price}\n\nThank you for using our service!\n\nBest Regards,\nDrive Your Way! \nCarGo Rental Team"
@@ -231,12 +238,11 @@ def contact(req):
         email = req.POST["email"]
         message = req.POST["message"]
 
-        # Send email (Optional: Set up Django email settings)
         send_mail(
             subject=f"New Contact Form Submission from {name}",
             message=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
             from_email=email,
-            recipient_list=["sreeharipremanathan@gmail.com"],  # Replace with your email
+            recipient_list=["sreeharipremanathan@gmail.com"], 
             fail_silently=True,
         )
 
@@ -309,12 +315,12 @@ def update_username(request):
         new_first_name = request.POST.get("name")
         new_username = request.POST.get("username")
 
-        # Check if the new username already exists (excluding the current user)
+        
         if User.objects.filter(username=new_username).exclude(id=request.user.id).exists():
             messages.error(request, "This username is already taken. Please choose another one.")
-            return redirect(user_profile)  # Ensure this matches your URL name
+            return redirect(user_profile) 
 
-        # Ensure both fields are filled
+        
         if new_first_name and new_username:
             request.user.first_name = new_first_name
             request.user.username = new_username
@@ -323,7 +329,7 @@ def update_username(request):
         else:
             messages.error(request, "Username and Name cannot be empty.")
 
-    return redirect(user_profile)  # Ensure this matches your URL name
+    return redirect(user_profile)
 
 def create_razorpay_order(request, rental_id):
     rental = Rental.objects.get(id=rental_id)
