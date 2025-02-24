@@ -6,7 +6,39 @@
     <title>Document</title>
 </head>
 <body>
-    <form id="razorpay-form">
+
+    <form method="POST">
+        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+        <script>
+        var options = {
+            key: "{{razorpay_key}}",
+            amount: "{{ amount }}",
+            currency: "INR",
+            name: "CarGo Rentals",
+            description: "Car Rental Payment",
+            image: "https://example.com/your_logo",
+            order_id: "{{ order_id }}",
+            callback_url: "{{callback_url}}",
+            redirect: true,
+            prefill: {
+                "name": "Gaurav Kumar",
+                "email": "gaurav.kumar@example.com",
+                "contact": "9999999999"
+            },
+            notes: {
+                "address": "Razorpay Corporate Office"
+            },
+            theme: {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+        </script>
+        <input type="hidden" custom="Hidden Element" name="hidden">
+    </form>
+
+    <!-- <form id="razorpay-form">
         <script src="https://checkout.razorpay.com/v1/checkout.js"
             data-key="{{ razorpay_key }}"
             data-amount="{{ amount }}"
@@ -14,12 +46,12 @@
             data-order_id="{{ order_id }}"
             data-buttontext="Pay Now"
             data-name="CarGo Rentals"
-            data-description="Car Rental Payment"
+            data-description="Car Rental Payment|"
             data-image="your_logo_url"
             data-prefill.name="{{ request.user.first_name }}"
             data-prefill.email="{{ request.user.email }}"
             data-theme.color="#007bff">
         </script>
-    </form>    
+    </form>     -->
 </body>
 </html>

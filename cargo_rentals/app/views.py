@@ -194,7 +194,7 @@ def update_rental_status(request, rental_id, status):
 
         elif status == "Rejected":
             subject = "Your Car Rental Has Been Rejected!"
-            message = f"Hello {rental.user.username},\n\nSORRY!!!  Your car rental for {rental.car.name} has been Rejected.\n\nStart Date: {rental.start_date}\nEnd Date: {rental.end_date}\nTotal Price: ₹{rental.total_price}\n\nThank you for using our service!\n\nBest Regards,\nDrive Your Way! \nCarGo Rental Team"
+            message = f"Hello {rental.user.username},\n\nSORRY....!!!  Your car rental for {rental.car.name} has been Rejected.\n\nStart Date: {rental.start_date}\nEnd Date: {rental.end_date}\nTotal Price: ₹{rental.total_price}\n\nThank you for using our service!\n\nBest Regards,\nDrive Your Way! \nCarGo Rental Team"
             recipient_email = rental.user.email
             sender_email = settings.EMAIL_HOST_USER
 
@@ -216,7 +216,7 @@ def update_rental_status(request, rental_id, status):
 
 
 
-# ---------user-----------------------
+# --------------user-----------------------
 def cargo_home(req):
     data=Car.objects.all()
     cat=Category.objects.all()
@@ -337,17 +337,16 @@ def create_razorpay_order(request, rental_id):
     
     client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
 
-    # Define payment amount in paisa (₹1 = 100 paisa)
     amount = int(rental.total_price * 100)
-    # Create a Razorpay order
     order_data = {
         "amount": amount,
         "currency": "INR",
         "payment_capture": "1"
     }
+    
     order = client.order.create(data=order_data)
+    # order.save()
 
-    # Pass order details to template
     return render(request, "user/payment.html", {
         "rental": rental,
         "razorpay_key": settings.RAZORPAY_KEY_ID,

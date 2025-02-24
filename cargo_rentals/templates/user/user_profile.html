@@ -129,7 +129,7 @@
                                 <span class="badge bg-warning text-dark">Pending</span>
                             {% elif rental.status == "Approved" %}
                                 <span class="badge bg-success">Approved</span>
-                                <a href="{% url 'payment' rental.car.id %}" class="btn btn-success mt-2">Payment</a>
+                                <a href="{% url 'payment' rental.id %}" class="btn btn-success mt-2">Payment</a>
                             {% elif rental.status == "Rejected" %}
                                 <span class="badge bg-danger">Rejected</span>
                             {% elif rental.status == "Completed" %}
