@@ -218,9 +218,12 @@ def update_rental_status(request, rental_id, status):
 
 # --------------user-----------------------
 def cargo_home(req):
-    data=Car.objects.all()
-    cat=Category.objects.all()
-    return render(req,'user/user_home.html',{'data':data,"cat":cat})
+    if 'admin' in req.session:
+        return redirect(admin_home)
+    else:
+        data=Car.objects.all()
+        cat=Category.objects.all()
+        return render(req,'user/user_home.html',{'data':data,"cat":cat})    
 
 def view_car(req,id):
     data=Car.objects.get(pk=id)
